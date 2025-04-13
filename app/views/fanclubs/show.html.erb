@@ -1,0 +1,35 @@
+<div class="flex-wrapper w-full my-10">
+  <div class="flex content-wrapper w-4/6 space-x-2 items-center justify-center">
+    <div class="w-1/3 text-center">
+      <% if current_user&.profile_image&.attached? %>
+        <%= image_tag current_user.profile_image, class: "block mx-auto m-0 rounded-[50%] w-[150px] h-[150px]" %>
+      <% else %>
+        <%= image_tag "noimage", class: "block mx-auto m-0 rounded-[50%] w-[150px] h-[150px]" %>
+      <% end %>
+      <h2 class="text-lg font-semibold mb-2"><%= @fanclub.title %></h2>
+      <% if current_user %>
+        <% subscription = current_user.subscriptions.find_by(fanclub: @fanclub) %>
+        <% if subscription && subscription.active? %>
+          <%= link_to "退会する", fanclub_subscription_path(@fanclub, subscription), data: { turbo_method: :delete }, class: "block mt-4 bg-pink-500 text-white py-4 rounded-lg hover:bg-pink-600" %>
+        <% else %>
+          <%= link_to "ファンになる", fanclub_subscriptions_path(@fanclub), data: { turbo_method: :post }, class: "block mt-4 bg-pink-500 text-white py-4 rounded-lg hover:bg-pink-600" %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="w-2/3">
+      <p class="text-gray-700"><%= @fanclub.description %></p>
+    </div>
+  </div>
+</div>
+<div class="flex-wrapper w-full mb-10">
+  <div class="content-wrapper w-4/6 p-7">
+    <p class="text-2xl font-bold mb-3">投稿</p>
+    <div class="grid grid-cols-3 gap-4">
+      <% @fanclub.contents.limit(6).each do |content| %>
+        <%= link_to content_path(content), class: "relative w-full h-52 bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-white hover:opacity-95" do %>
+          <%= render 'shared/content_image', image: content.image, title: content.title %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

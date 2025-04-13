@@ -1,0 +1,15 @@
+<div class="list-group-item relative group">
+  <div class="flex justify-between items-center">
+    <button type="button" class="inline-flex w-full cursor-pointer">
+      <%= button_text %>
+    </button>
+    <%= heroicon "chevron-right", options: { class: "ml-2" } %>
+  </div>
+  <div class="hidden group-hover:block absolute top-0 left-[95%] w-56 rounded-md shadow-lg bg-white ring-1 ring-gray-300 ring-opacity-5 focus:outline-none">
+    <div class="py-1">
+      <% menu_items.each do |item| %>
+        <%= link_to item[:text], item[:url], class: "block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-400" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="container mx-auto mt-6 mb-5 w-2/5">
+  <h2 class="text-2xl font-bold mb-6">あなたのファンクラブのサブスクライバー</h2>
+  <% if @subscribers.any? %>
+    <div class="space-y-4">
+      <% @subscribers.each do |subscriber| %>
+        <div class="flex bg-white rounded-lg shadow-md overflow-hidden p-4">
+          <%= image_tag subscriber[:user].profile_image.variant(resize_to_fill: [50, 50]), 
+                        class: "w-12 h-12 rounded-full mr-4" if subscriber[:user].profile_image.attached? %>
+          <div>
+            <h3 class="text-lg font-semibold"><%= subscriber[:user].name %></h3>
+            <p class="text-sm text-gray-600">支援PT: <%= subscriber[:points] %></p>
+            <p class="text-sm text-gray-600"><%= subscriber[:message] %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-600">現在、サブスクライバーはいません。</p>
+  <% end %>
+</div>

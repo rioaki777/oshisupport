@@ -1,0 +1,33 @@
+<footer class="bg-white py-12 border-t border-gray-200 text-gray-600">
+  <div class="container w-1/2 mx-auto flex flex-col md:flex-row justify-center items-center md:items-start gap-8">
+    <div class="flex-2">
+      <h3 class="text-lg font-bold mb-[15px] pb-[15px] border-b border-gray-200">サイトについて</h3>
+      <%= link_to root_path do %>
+        <%= image_tag('logo.svg', alt: 'App Logo', width: '120') %>
+      <% end %>
+      <p class="mt-2 text-sm leading-relaxed">
+        このサイトは、ファンクラブの管理やコンテンツの公開をサポートするプラットフォームです。
+        ユーザーはファンクラブに参加し、お気に入りのクリエイターを応援できます。
+      </p>
+    </div>
+    <div class="flex-1">
+      <h3 class="text-lg font-bold mb-4">ランキング</h3>
+      <ul class="">
+        <li class="mb-2">
+          <%= link_to "人気のファンクラブ", fanclubs_path, class: "text-gray-500 hover:text-gray-600" %>
+        </li>
+        <li class="mb-2">
+          <%= link_to "人気の投稿", contents_path, class: "text-gray-500 hover:text-gray-600" %>
+        </li>
+      </ul>
+    </div>
+    <div class="flex-1">
+      <h3 class="text-lg font-bold mb-4">Language</h3>
+      <ul class="">
+        <li class="mb-2">
+          <%= link_to "日本語", "#", class: "text-gray-500 hover:text-gray-600" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
