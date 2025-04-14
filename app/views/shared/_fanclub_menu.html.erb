@@ -1,0 +1,33 @@
+<div class="relative group">
+  <%= render partial: "shared/icon_card", locals: { 
+        icon_name: "home", 
+        description: "ファンクラブ", 
+        link: "#", 
+        method: :get 
+    } %>
+  <div class="hidden text-black w-[190px] group-hover:block absolute w-56 rounded-md shadow-lg bg-white ring-1 ring-gray-200 ring-opacity-5 z-10">
+    <%= link_to fanclub_path(current_user.fanclub), class: "block flex items-center space-x-2 list-group-item" do %>
+      <p>ファンクラブページへ</p>
+    <% end %>
+    <%= link_to edit_fanclub_path(current_user.fanclub), class: "block flex items-center space-x-2 list-group-item" do %>
+      <p>ファンクラブページを編集</p>
+    <% end %>
+    <div class="block h-[1px] bg-gray-200 my-3"></div>
+    <div class="p-3 font-bold">
+      <span class="text-pink-500">つくる (投稿)</span>
+    </div>
+    <%= link_to new_content_path, class: "block flex items-center space-x-2 list-group-item" do %>
+      <p>新規追加</p>
+    <% end %>
+    <%= link_to my_contents_path, class: "block flex items-center space-x-2 list-group-item" do %>
+      <p>一覧表示</p>
+    <% end %>
+    <div class="block h-[1px] bg-gray-200 my-3"></div>
+    <div class="p-3 font-bold">
+      <span class="text-pink-500">ファンとコミュニティ</span>
+    </div>
+    <%= link_to subscribers_fanclub_path(current_user.fanclub), class: "block flex items-center space-x-2 list-group-item" do %>
+      <p>ファン一覧</p>
+    <% end %>
+  </div>
+</div>

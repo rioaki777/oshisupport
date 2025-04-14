@@ -1,0 +1,16 @@
+<div class="flex-wrapper w-full">
+  <div class="content-wrapper w-1/3">
+    <%= form_with model: @content, local: true do |form| %>
+      <h2 class="text-3xl font-semibold text-center text-gray-800 mb-3">新しいコンテンツ</h2>
+      <div class="mt-5 mb-5 text-red-800">
+        <%= render "devise/shared/error_messages", resource: @content %>
+      </div>
+      <%= render(CommonFormFieldComponent.new(form: form, field_name: :title, field_type: :text_field, options: { autocomplete: "title" })) %>
+      <%= render(CommonFormFieldComponent.new(form: form, field_name: :description, field_type: :text_area, options: { autocomplete: "description", class: "h-40" })) %>
+      <%= render(CommonFormFieldComponent.new(form: form, field_name: :image, field_type: :file_field, options: { autocomplete: "image" })) %>
+      <div class="actions mt-10">
+        <%= form.submit "投稿", class: "w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

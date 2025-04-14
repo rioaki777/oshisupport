@@ -1,0 +1,23 @@
+<div class="container mx-auto mt-5 mb-8 w-2/3">
+  <h1 class="text-2xl font-bold mb-6">すべてのコンテンツ</h1>
+  <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+    <% @contents.each do |content| %>
+      <%= link_to content_path(content), class: "bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:bg-white hover:opacity-70" do %>
+        <%= image_tag content.image, class: "w-full h-48 object-cover" %>
+        <div class="p-4">
+          <h2 class="text-lg font-bold mb-2 truncate" title="<%= content.title %>"><%= content.title %></h2>
+          <p class="text-gray-600 text-sm line-clamp-2" title="<%= content.description %>"><%= content.description %></p>
+          <div class="flex items-center mt-4">
+            <% if content.fanclub.user.profile_image.attached? %>
+              <%= image_tag content.fanclub.user.profile_image.variant(resize_to_fill: [32, 32]), 
+                            class: "w-8 h-8 rounded-full mr-2" %>
+            <% else %>
+              <div class="w-8 h-8 bg-gray-300 rounded-full mr-2"></div>
+            <% end %>
+            <p class="text-sm font-medium text-gray-800"><%= content.fanclub.user.name %></p>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

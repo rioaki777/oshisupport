@@ -1,0 +1,10 @@
+<%= link_to link, { data: { turbo_method: method }, class: "block mx-3" } do %>
+  <div class="overflow-hidden cursor-pointer hover:text-blue-400">
+    <!-- アイコンを表示 -->
+    <div class="flex items-center justify-center">
+      <%= heroicon icon_name %>
+    </div>
+    <!-- ラベルを表示 -->
+    <p class="text-xs"><%= description %></p>
+  </div>
+<% end %>

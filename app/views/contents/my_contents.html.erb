@@ -1,0 +1,25 @@
+<div class="flex-wrapper w-3/4 m-auto my-7">
+  <div class="content-wrapper p-3">
+    <p class="text-xl mb-1">投稿</p>
+    <div class="space-y-4">
+      <% @contents.each do |content| %>
+        <div class="flex items-start shadow-lg rounded-lg relative">
+          <%= link_to edit_content_path(content), class: "flex p-4 space-x-4 hover:bg-gray-50 hover:opacity-95" do %>
+            <div class="w-32 h-32 bg-gray-300 rounded-lg overflow-hidden">
+              <%= image_tag content.image.variant(resize_to_fill: [120, 120]), class: "w-full h-full object-cover" %>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold"><%= content.title %></h3>
+              <p class="text-sm mt-2 w-[95%]"><%= content.description %></p>
+            </div>
+          <% end %>
+          <div class="absolute top-2 right-2">
+            <%= link_to content_path(content), method: :delete, data: { turbo_method: :delete }, class: "text-red-500 hover:text-red-700" do %>
+              <%= heroicon "trash", options: { class: "mx-auto w-6 h-6" } %> 削除
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
