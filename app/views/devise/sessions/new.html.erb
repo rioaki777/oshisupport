@@ -1,0 +1,12 @@
+<div class="flex-wrapper w-full">
+  <div class="content-wrapper w-1/3">
+    <%= form_with scope: resource, as: resource_name, url: session_path(resource_name), class: "", local: true do |f| %>
+      <h2 class="text-3xl font-semibold text-center text-gray-800 mb-3">ログイン</h2>
+      <%= render(CommonFormFieldComponent.new(form: f, field_name: :email, field_type: :email_field, options: { autocomplete: "email" })) %>
+      <%= render(CommonFormFieldComponent.new(form: f, field_name: :password, field_type: :password_field, options: { autocomplete: "current-password" })) %>
+      <div class="actions mt-10">
+        <%= f.submit "Log in", class: "w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+    <% end %>
+  </div>
+</div>

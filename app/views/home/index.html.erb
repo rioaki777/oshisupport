@@ -1,0 +1,159 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.slicker').css('visibility', 'visible');
+    $('.slicker').slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      arrows: false,
+      autoplay:true,
+      autoplaySpeed: 3000,
+      dots:true,
+    });
+  });
+</script>
+<div class="slicker w-full invisible">
+  <% images = [image_path('kuji.png'), image_path('tokusyu.png'), image_path('free-credit.png'), image_path('anapoint.png'),
+              image_path('kuji.png'), image_path('tokusyu.png')] %>
+  <% images.each do |image| %>
+    <%= link_to "unimplemented", class: "slide overflow-visible cursor-pointer" do %>
+      <%= image_tag image, width:"600", height:"200", class:'w-[600px] h-auto' %>
+    <% end %>
+  <% end %>
+</div>
+<div class="flex w-7/12 m-auto">
+  <% if user_signed_in? %>
+    <div class="w-1/4">
+      <div class="bg-white rounded-md border border-gray-200 py-3">
+        <%= link_to edit_user_registration_path, class: "block flex items-center space-x-2 list-group-item" do %>
+          <%= heroicon "face-smile" %>
+          <p>プロフィールページへ</p>
+        <% end %>
+        <div class="block h-[1px] bg-gray-200 my-3"></div>
+        <div class="p-3 font-bold">
+          <span class="text-pink-500">推しているユーザー</span>
+        </div>
+        <%= link_to subscriptions_path do %>
+          <span class="list-group-item block">推しているユーザー</span>
+        <% end %>
+        <div class="block h-[1px] bg-gray-200 my-3"></div>
+        <%= link_to destroy_user_session_path, class: "cursor-pointer hover:text-blue-700", data: { turbo_method: :delete } do %>
+          <span class="list-group-item block">ログアウト</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="w-9/12 px-4">
+    <div class="mb-5 bg-white rounded-md border border-gray-200">
+      <div class="flex space-x-2 p-4 border-b border-gray-200">
+        <%= heroicon "speaker-wave" %>
+        <h2>お知らせ</h2>
+      </div>
+      <div>
+        <% @announcements.each do |announcement| %>
+          <div class="flex space-x-2 text-sm my-1 p-4">
+            <p class="text-gray-600"><%= l(announcement.published_at, format: :short) %></p>
+            <%= link_to announcement.title, announcement_path(announcement), class: "text-blue-500 hover:text-blue-700 hover:underline" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <% if user_signed_in? %>
+      <div class="mb-5 bg-white rounded-md border border-gray-200">
+        <div class="flex space-x-2 p-3 border-b border-gray-200 items-center">
+          <div class="text-pink-500">
+            <%= heroicon "heart" %>
+          </div>
+          <h2>推しているユーザーの新着</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+          <% current_user.subscriptions.each do |subscription| %>
+            <% next unless subscription.active? %> <!-- active なものだけ処理 -->
+            <% fanclub = subscription.fanclub %>
+            <% latest_content = fanclub.latest_content %>
+            <%= link_to fanclub_path(fanclub), class: "relative w-full bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-white hover:opacity-95" do %>
+              <% if latest_content&.image.attached? %>
+                <%= render 'shared/content_image', image: latest_content.image, title: latest_content.title %>
+              <% else %>
+                <%= render 'shared/content_image', image: fanclub.user.profile_image, title: fanclub.title %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <div class="mb-5 bg-white rounded-md border border-gray-200">
+      <div class="flex space-x-2 p-3 border-b border-gray-200 items-center">
+        <div class="text-pink-500">
+          <%= heroicon "user-circle" %>
+        </div>
+        <h2>新着のユーザー</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+        <% @fanclubs.each do |fanclub| %>
+          <%= link_to fanclub_path(fanclub), class: "relative w-full bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-white hover:opacity-95" do %>
+            <%= render 'shared/content_image', image: fanclub.user.profile_image, title: fanclub.title %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="mb-5 bg-white rounded-md border border-gray-200">
+      <div class="flex space-x-2 p-3 border-b border-gray-200 items-center">
+        <div class="text-blue-500">
+          <%= heroicon "pencil" %>
+        </div>
+        <h2>注目の新着投稿</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+        <% @contents.each do |content| %>
+          <%= link_to content_path(content), class: "relative w-full bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-white hover:opacity-95" do %>
+            <%= render 'shared/content_image', image: content.image, title: content.title %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="w-1/4">
+    <div class="mb-5 bg-white rounded-md border border-gray-200">
+      <div class="flex space-x-2 p-4 border-b border-gray-200">
+        <%= image_tag "trophy.svg", width:"20", height:"18", class:"text-yellow-400" %>
+        <h2>投稿デイリーランキング</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-3">
+        <% @contents.each_with_index do |content, index| %>
+          <div class="flex flex-col">
+            <div class="font-bold px-2 py-1 rounded-br">
+              <%= index+1 %>
+            </div>
+            <%= link_to content_path(content), class: "relative w-full bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-white hover:opacity-95" do %>
+              <%= render 'shared/content_image', image: content.image, title: content.title, width: "150px" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <%= link_to contents_path, class: "block list-group-item border-t border-gray-300 rounded-t-none p-2 text-center" do %>
+        <span>もっと見る</span>
+      <% end %>
+    </div>
+    <div class="mb-5 bg-white rounded-md border border-gray-200">
+      <div class="flex space-x-2 p-4 border-b border-gray-200">
+        <%= image_tag "trophy.svg", width:"20", height:"18", class:"text-yellow-400" %>
+        <h2>ファンクラブ デイリーランキング</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 p-3">
+        <% @fanclubs.each_with_index  do |fanclub, index| %>
+          <div class="flex flex-col">
+            <div class="font-bold px-2 py-1 rounded-br">
+              <%= index+1 %>
+            </div>
+            <%= link_to fanclub_path(fanclub), class: "relative w-full bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-white hover:opacity-95" do %>
+              <%= render 'shared/content_image', image: fanclub.user.profile_image, title: fanclub.title %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <%= link_to fanclubs_path, class: "block list-group-item border-t border-gray-300 rounded-t-none p-2 text-center" do %>
+        <span>もっと見る</span>
+      <% end %>
+    </div>
+  </div>
+</div>
