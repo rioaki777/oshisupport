@@ -1,0 +1,54 @@
+<header class="shadow-md border-b border-gray-200">
+  <div class="container mx-auto py-3 px-4 sm:px-8 lg:px-20 flex flex-wrap lg:flex-nowrap justify-between items-center">
+    <nav class="flex flex-wrap items-center space-x-4">
+      <%= link_to root_path do %>
+        <%= image_tag('logo.svg', alt: 'App Logo', width: '150') %>
+      <% end %>
+      <%= render partial: "shared/icon_card", locals: { 
+                icon_name: "fire",
+                description: "ランキング", 
+                link: fanclubs_path,
+                method: :get
+            } %>
+    </nav>
+    <nav class="flex flex-wrap items-center space-x-2 sm:space-x-4 mt-4 lg:mt-0">
+      <% if user_signed_in? %>
+        <% if current_user.fanclub&.persisted? %>
+          <%= render "shared/fanclub_menu" %>
+        <% else %>
+          <%= render partial: "shared/icon_card", locals: { 
+                    icon_name: "home", 
+                    description: "ファンクラブ開設", 
+                    link: new_fanclub_path,
+                    method: :get 
+                } %>
+        <% end %>
+        <%= render partial: "shared/icon_card", locals: { 
+                    icon_name: "face-smile",
+                    description: "アカウント", 
+                    link: edit_user_registration_path,
+                    method: :get
+                } %>
+        <%= render partial: "shared/icon_card", locals: { 
+                    icon_name: "user-minus",
+                    description: "ログアウト", 
+                    link: destroy_user_session_path,
+                    method: :delete
+                } %>
+      <% else %>
+        <%= render partial: "shared/icon_card", locals: { 
+                    icon_name: "user-plus",
+                    description: "ユーザー登録", 
+                    link: new_user_registration_path ,
+                    method: :get
+                } %>
+        <%= render partial: "shared/icon_card", locals: { 
+                    icon_name: "check",
+                    description: "ログイン", 
+                    link: new_user_session_path,
+                    method: :get
+                } %>
+      <% end %>
+    </nav>
+  </div>
+</header>

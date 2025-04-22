@@ -1,0 +1,7 @@
+<% width ||= '300px' %>
+<div class="relative flex justify-center">
+  <%= image_tag image, class: "w-[#{width}]" %>
+</div>
+<div class="absolute bottom-0 bg-white opacity-50 flex w-full">
+  <p class="text-sm p-1"><%= title %></p>
+</div>

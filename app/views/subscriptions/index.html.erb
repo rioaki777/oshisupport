@@ -1,0 +1,32 @@
+<div class="container mx-auto mt-6 mb-5 w-3/5">
+  <h1 class="text-2xl font-bold mb-6">すべてのファンクラブ</h1>
+  <div class="space-y-6">
+    <% @subscriptions.each do |subscription| %>
+      <% fanclub = subscription.fanclub %>
+      <div class="flex bg-white rounded-lg shadow-md overflow-hidden p-4">
+        <div class="w-1/4 flex flex-col items-start space-y-3">
+          <%= link_to fanclub_path(fanclub), class: "hover:text-blue-400 hover:underline" do %>
+            <% if fanclub.user.profile_image.attached? %>
+              <%= image_tag fanclub.user.profile_image.variant(resize_to_fill: [64, 64]), 
+                          class: "w-16 h-16 rounded-full shadow-sm" %>
+            <% else %>
+              <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
+            <% end %>
+            <h2 class="text-lg font-bold"><%= fanclub.title %></h2>
+          <% end %>
+          <p class="text-gray-600 text-sm"><%= fanclub.description.truncate(80) %></p>
+        </div>
+        <!-- 右側: コンテンツ -->
+        <div class="w-3/4 pl-6 flex items-center">
+          <div class="flex space-x-4 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+            <% fanclub.contents.limit(5).each do |content| %>
+              <%= link_to content_path(content), class: "relative min-w-[150px] bg-gray-200 rounded-lg overflow-hidden cursor-pointer hover:bg-white hover:opacity-95" do %>
+                <%= render 'shared/content_image', image: content.image, title: content.title, width: "150px" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
